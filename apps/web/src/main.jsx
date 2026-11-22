@@ -9,7 +9,9 @@ import {
   translateTextRobust,
 } from './translations.js';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+const API =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
 
 const LanguageContext = createContext('eng_Latn');
 const useLanguage = () => useContext(LanguageContext);
@@ -412,60 +414,41 @@ function Schedule() {
 // Ask AI Result Component
 function Result({ result, language }) {
   const t = useT();
-
-  const [viewMode, setViewMode] = useState('selected');
+  const [viewMode, setViewMode] = useState('selected'); // 'selected' or 'source'
   const [copied, setCopied] = useState(false);
-
-  // FIX: Initialize before using isEnglish anywhere
-  const isEnglish = language === 'eng_Latn';
 
   if (!result) return null;
 
-  // Handle insufficient sources
+  const isEnglish = language === 'eng_Latn';
+
   if (result.status === 'insufficient_sources') {
     const rawMsg = result.message || t('noResultsNotice');
-
     const localizedMsg = isEnglish ? rawMsg : translateAnswerText(language, rawMsg);
-
     return <section className="notice">{localizedMsg}</section>;
   }
 
-  // Translate answer according to selected language
   const renderText = (content) => {
     if (!content) return '';
-
-    if (viewMode === 'source' || isEnglish) {
-      return content;
-    }
-
+    if (viewMode === 'source' || isEnglish) return content;
     return translateAnswerText(language, content);
   };
 
-  // Listen to answer
   const speak = () => {
     if (!('speechSynthesis' in window)) return;
-
     window.speechSynthesis.cancel();
-
     const lead = renderText(result.directAnswer);
     const simple = renderText(result.simpleExplanation);
-
     const textToSpeak = `${lead}. ${simple || ''}`;
-
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
-
     utterance.lang = speechLocale[language] || 'en-IN';
-
     window.speechSynthesis.speak(utterance);
   };
 
-  // Copy complete answer
-  const handleCopy = async () => {
+  const handleCopy = () => {
     const lead = renderText(result.directAnswer);
     const simple = renderText(result.simpleExplanation);
     const limits = renderText(result.limits);
     const example = renderText(result.everydayExample);
-
     const fullText = [
       lead,
       simple ? `\n\n${t('inSimpleWords')}:\n${simple}` : '',
@@ -476,38 +459,27 @@ function Result({ result, language }) {
         : '',
     ].join('');
 
-    try {
-      await navigator.clipboard.writeText(fullText);
-
+    navigator.clipboard?.writeText(fullText).then(() => {
       setCopied(true);
-
-      setTimeout(() => {
-        setCopied(false);
-      }, 2000);
-    } catch (error) {
-      console.error('Failed to copy answer:', error);
-    }
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
   return (
     <section className="result-card">
       <div className="result-header">
         <h2>{t('answerHeading')}</h2>
-
         {!isEnglish && (
           <div className="view-mode-toggle">
             <button
               className={`view-mode-btn ${viewMode === 'selected' ? 'active' : ''}`}
               onClick={() => setViewMode('selected')}
-              type="button"
             >
               🌐 {t('selectedLanguage')}
             </button>
-
             <button
               className={`view-mode-btn ${viewMode === 'source' ? 'active' : ''}`}
               onClick={() => setViewMode('source')}
-              type="button"
             >
               📜 {t('officialEnglishSource')}
             </button>
@@ -541,14 +513,11 @@ function Result({ result, language }) {
       {result.whatConstitutionSays?.length > 0 && (
         <div className="answer-section">
           <h3>📖 {t('extractedSourceText')}</h3>
-
           {result.whatConstitutionSays.map((item, idx) => (
             <div className="source-item" key={idx}>
               <strong>
-                {renderText(item.identifier)}
-                {item.title ? ` — ${renderText(item.title)}` : ''}
+                {renderText(item.identifier)} {item.title ? `— ${renderText(item.title)}` : ''}
               </strong>
-
               <blockquote>{renderText(item.text)}</blockquote>
             </div>
           ))}
@@ -558,7 +527,6 @@ function Result({ result, language }) {
       {result.citations?.length > 0 && (
         <div className="answer-section">
           <h3>🔗 {t('sourcesHeading')}</h3>
-
           <div className="citations-list">
             {result.citations.map((c, i) => (
               <a
@@ -568,8 +536,7 @@ function Result({ result, language }) {
                 rel="noreferrer"
                 className="citation-pill"
               >
-                📄 {renderText(c.identifier)}
-                {c.pdfPageStart ? ` (p. ${c.pdfPageStart})` : ''}
+                📄 {renderText(c.identifier)} {c.pdfPageStart ? `(p. ${c.pdfPageStart})` : ''}
               </a>
             ))}
           </div>
@@ -580,7 +547,6 @@ function Result({ result, language }) {
         <button className="voice-button" onClick={speak} type="button">
           🔊 {t('listenToAnswer')}
         </button>
-
         <button className="voice-button" onClick={handleCopy} type="button">
           {copied ? t('copied') : `📋 ${t('copyAnswer')}`}
         </button>
@@ -1295,7 +1261,7 @@ function Static({ title, children }) {
 // Main App Container
 function App() {
   const languageState = useApi('/languages');
-  const languages = languageState?.languages || defaultLanguages;
+  const languages = defaultLanguages;
 
   // Persistent Language State
   const [language, setLanguage] = useState(() => localStorage.language || 'eng_Latn');
@@ -1353,9 +1319,15 @@ function App() {
       </Static>
     );
   } else if (['/privacy', '/terms', '/disclaimer'].includes(route)) {
+    const pageContent = {
+      '/privacy': 'privacyText',
+      '/terms': 'termsText',
+      '/disclaimer': 'disclaimerText',
+    };
+
     body = (
       <Static title={t(route.slice(1).charAt(0).toUpperCase() + route.slice(2))}>
-        <p>{t('disclaimerText')}</p>
+        <p>{t(pageContent[route])}</p>
       </Static>
     );
   } else {
