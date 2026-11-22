@@ -1,8 +1,0 @@
-{
-  "name": "@samvidhan/translation",
-  "private": true,
-  "version": "0.1.0",
-  "scripts": {
-    "dev": "uvicorn app.main:app --reload --port 8001"
-  }
-}
