@@ -363,62 +363,17 @@ const FALLBACK_CONSTITUTIONAL_TRANSLATIONS = {
     'arrest': 'ધરપકડ',
     'detention': 'અટકાયત',
   },
-  ben_Beng: {
-    'we, the people of india': 'আমরা, ভারতের জনগণ',
-    'sovereign socialist secular democratic republic': 'সার্বভৌম সমাজতান্ত্রিক ধর্মনিরপেক্ষ গণতান্ত্রিক সাধারণতন্ত্র',
-    'justice, liberty, equality and fraternity': 'ন্যায়বিচার, স্বাধীনতা, সমতা ও সৌভ্রাতৃত্ব',
-    'equality before the law': 'আইনের দৃষ্টিতে সমতা',
-    'equal protection of the laws': 'আইনের সমান সংরক্ষণ',
-    'protection of life and personal liberty': 'জীবন ও ব্যক্তিগত স্বাধীনতার সুরক্ষা',
-    'freedom of speech and expression': 'বাক ও ভাব প্রকাশের স্বাধীনতা',
-    'right to education': 'শিক্ষার অধিকার',
-    'fundamental rights': 'মৌলিক অধিকার',
-    'fundamental duties': 'মৌলিক কর্তব্য',
-    'constitution of india': 'ভারতের সংবিধান',
-  },
-  mar_Deva: {
-    'we, the people of india': 'आम्ही, भारताचे लोक',
-    'sovereign socialist secular democratic republic': 'सार्वभौम समाजवादी धर्मनिरपेक्ष लोकशाही गणराज्य',
-    'justice, liberty, equality and fraternity': 'न्याय, स्वातंत्र्य, समता व बंधुता',
-    'equality before the law': 'कायद्यासमोर समानता',
-    'protection of life and personal liberty': 'जीवित व वैयक्तिक स्वातंत्र्य',
-    'freedom of speech and expression': 'भाषण व अभिव्यक्ती स्वातंत्र्य',
-    'right to education': 'शिक्षणाचा हक्क',
-    'fundamental rights': 'मूलभूत हक्क',
-    'fundamental duties': 'मूलभूत कर्तव्ये',
-    'constitution of india': 'भारताचे संविधान',
-  },
-  tam_Taml: {
-    'we, the people of india': 'இந்திய மக்களாகிய நாம்',
-    'equality before the law': 'சட்டத்தின் முன் அனைவரும் சமம்',
-    'protection of life and personal liberty': 'வாழ்வுரிமை மற்றும் தனிநபர் சுதந்திரம்',
-    'freedom of speech and expression': 'பேச்சு மற்றும் கருத்து சுதந்திரம்',
-    'right to education': 'கல்வி உரிமை',
-    'fundamental rights': 'அடிப்படை உரிமைகள்',
-    'fundamental duties': 'அடிப்படை கடமைகள்',
-    'constitution of india': 'இந்திய அரசியலமைப்பு',
-  },
-  tel_Telu: {
-    'we, the people of india': 'భారతదేశ ప్రజలమైన మేము',
-    'equality before the law': 'చట్టం ముందు సమానత్వం',
-    'protection of life and personal liberty': 'జీవించే హక్కు మరియు వ్యక్తిగత స్వేచ్ఛ',
-    'freedom of speech and expression': 'వాక్ స్వాతంత్య్రం మరియు భావ ప్రకటన స్వేచ్ఛ',
-    'right to education': 'విద్యా హక్కు',
-    'fundamental rights': 'ప్రాథమిక హక్కులు',
-    'fundamental duties': 'ప్రాథమిక విధులు',
-    'constitution of india': 'భారత రాజ్యాంగం',
-  },
-  urd_Arab: {
-    'we, the people of india': 'ہم، بھارت کے عوام',
-    'equality before the law': 'قانون کے سامنے برابری',
-    'protection of life and personal liberty': 'جان اور ذاتی آزادی کا تحفظ',
-    'freedom of speech and expression': 'تقریر اور اظہار رائے کی آزادی',
-    'right to education': 'تعلیم کا حق',
-    'fundamental rights': 'بنیادی حقوق',
-    'fundamental duties': 'بنیادی فرائض',
-    'constitution of india': 'دستور ہند',
-  }
+
 };
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "SAMVIDHAN AI API is running",
+    version: "1.0.0",
+    status: "healthy"
+  });
+});
 
 function resilientTranslate(text, sourceLang, targetLang) {
   if (!text || sourceLang === targetLang) return text;
