@@ -566,4 +566,4 @@ export function startServer() {
 // Keep imports side-effect free so integration tests can start an isolated server.
 if (process.argv[1]?.endsWith('server.js')) startServer();
 
-export { app };
+export default { app };
