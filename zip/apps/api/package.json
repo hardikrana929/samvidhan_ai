@@ -1,0 +1,21 @@
+{
+  "name": "@samvidhan/api",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node --env-file=.env --watch src/server.js",
+    "start": "node --env-file=.env src/server.js",
+    "test": "node --test",
+    "check": "node --check src/server.js && node --check src/answer.js && node --check src/corpus.js && node --check src/atlas.js && node --check src/embeddings.js && node --check src/gemini.js && node --check src/translation.js && node --check src/model.js && node --check src/languages.js && node --check scripts/index-constitution.mjs && node --check ../../tools/import-constitution.mjs",
+    "verify:translations": "node scripts/verify-language-matrix.mjs",
+    "index:constitution": "node --env-file=.env scripts/index-constitution.mjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "zod": "^3.24.2",
+    "mongodb": "^6.20.0"
+  }
+}
