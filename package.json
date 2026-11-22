@@ -1,0 +1,26 @@
+{
+  "name": "samvidhan-ai",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w @samvidhan/api\" \"npm run dev -w @samvidhan/web\"",
+    "dev:api": "npm --prefix apps/api run dev",
+    "dev:web": "npm --prefix apps/web run dev",
+    "start:api": "npm --prefix apps/api start",
+    "build": "npm run build -w @samvidhan/web && npm run check -w @samvidhan/api",
+    "test": "npm run test -w @samvidhan/api",
+    "lint": "npm run lint -w @samvidhan/web && npm run check -w @samvidhan/api",
+    "format": "prettier --write \"apps/**/*.{js,jsx,json,css}\" \"services/**/*.json\" \"package.json\"",
+    "format:check": "prettier --check \"apps/**/*.{js,jsx,json,css}\" \"services/**/*.json\" \"package.json\"",
+    "index:constitution": "npm run index:constitution -w @samvidhan/api",
+    "corpus:import": "powershell -ExecutionPolicy Bypass -File tools/extract-constitution.ps1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.10.1"
+  }
+}
