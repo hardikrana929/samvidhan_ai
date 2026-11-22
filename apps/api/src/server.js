@@ -559,11 +559,18 @@ app.use(
     })
   ),
 );
+
 export function startServer() {
-  return app.listen(port, () => console.log(`Samvidhan API listening on ${port}`));
+  return app.listen(port, () =>
+    console.log(`Samvidhan API listening on ${port}`)
+  );
 }
 
-// Keep imports side-effect free so integration tests can start an isolated server.
-if (process.argv[1]?.endsWith('server.js')) startServer();
+// Start the server only during local development.
+if (process.argv[1]?.endsWith('server.js')) {
+  startServer();
+}
 
-export default { app };
+// Export Express application for Vercel.
+export { app };
+export default app;
