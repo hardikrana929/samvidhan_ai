@@ -130,7 +130,9 @@ export const UI_TRANSLATIONS = {
     Myths: 'Myths',
     Amendments: 'Amendments',
     Privacy: 'Privacy',
+    privacyText: "Samvidhan AI respects your privacy. We do not sell, monetize, or collect personal identifying data. Questions entered in the assistant are processed solely to retrieve constitutional passages and generate educational explanations. No tracking cookies or user accounts are required.",
     Terms: 'Terms',
+    termsText: 'By using Samvidhan AI, you agree that this platform is provided strictly for educational and civic awareness purposes. The content is based on machine-extracted constitutional texts and cited articles. This service is not a substitute for formal legal representation or official legal counsel.',
     Disclaimer: 'Disclaimer'
   },
 
@@ -262,7 +264,9 @@ export const UI_TRANSLATIONS = {
     Myths: 'માન્યતાઓ',
     Amendments: 'સુધારાઓ',
     Privacy: 'ગોપનીયતા',
+    privacyText: 'સંવિધાન AI તમારી ગોપનીયતાનું સન્માન કરે છે. અમે કોઈપણ વ્યક્તિગત ડેટા એકત્રિત કરતા કે વેચતા નથી. સહાયકમાં પૂછવામાં આવેલા પ્રશ્નો ફક્ત બંધારણીય જોગવાઈઓ શોધવા અને શૈક્ષણિક સમજૂતી આપવા માટે જ વપરાય છે. બંધારણ વાંચવા માટે કોઈ ટ્રેકિંગ કૂકીઝ કે એકાઉન્ટની જરૂર નથી.',
     Terms: 'શરતો',
+    termsText: 'સંવિધાન AI નો ઉપયોગ કરીને, તમે સંમત થાઓ છો કે આ મંચ ફક્ત શૈક્ષણિક અને નાગરિક જાગૃતિના હેતુ માટે પૂરું પાડવામાં આવ્યું છે. આપવામાં આવેલી માહિતી સત્તાવાર બંધારણીય સ્ત્રોતો પર આધારિત છે અને તે વકીલ કે કાનૂની સલાહનો વિકલ્પ નથી.',
     Disclaimer: 'અસ્વીકરણ'
   },
 
@@ -394,9 +398,11 @@ export const UI_TRANSLATIONS = {
     Myths: 'भ्रम व तथ्य',
     Amendments: 'संशोधन',
     Privacy: 'गोपनीयता',
+    privacyText: 'संविधान AI आपकी गोपनीयता का सम्मान करता है। हम किसी भी व्यक्तिगत डेटा को संग्रहीत या साझा नहीं करते हैं। सहायक में पूछे गए प्रश्न केवल संवैधानिक प्रावधानों को खोजने और शैक्षिक व्याख्या प्रदान करने के लिए उपयोग किए जाते हैं। संविधान का अध्ययन करने के लिए किसी खाते या ट्रैकिंग की आवश्यकता नहीं है।',
     Terms: 'शर्तें',
+    termsText: 'संविधान AI का उपयोग करके, आप सहमत होते हैं कि यह मंच केवल शैक्षिक और नागरिक जागरूकता के उद्देश्य से प्रदान किया गया है। सामग्री आधिकारिक संवैधानिक मूल पाठ पर आधारित है और यह किसी कानूनी अधिवक्ता या आधिकारिक विधिक सलाह का विकल्प नहीं है।',
     Disclaimer: 'अस्वीकरण'
-  }
+  },
 };
 
 // Comprehensive Constitutional Knowledge Dictionary for Real-time Answer Translation
