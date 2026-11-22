@@ -2,9 +2,16 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Link, NavLink, useLocation } from 'react-router-dom';
 import './styles.css';
-import { t as translateKey, UI_TRANSLATIONS, translateAnswerText, translateTextRobust } from './translations.js';
+import {
+  t as translateKey,
+  UI_TRANSLATIONS,
+  translateAnswerText,
+  translateTextRobust,
+} from './translations.js';
 
-const API = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
+const API =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? '/api/v1' : 'http://localhost:5000/api/v1');
 
 const LanguageContext = createContext('eng_Latn');
 const useLanguage = () => useContext(LanguageContext);
@@ -17,13 +24,6 @@ const speechLocale = {
   eng_Latn: 'en-IN',
   guj_Gujr: 'gu-IN',
   hin_Deva: 'hi-IN',
-  asm_Beng: 'as-IN', ben_Beng: 'bn-IN', brx_Deva: 'hi-IN',
-  doi_Deva: 'doi-IN', kan_Knda: 'kn-IN',
-  kas_Arab: 'ks-IN', kas_Deva: 'ks-IN', gom_Deva: 'kok-IN', mai_Deva: 'mai-IN',
-  mal_Mlym: 'ml-IN', mni_Mtei: 'mni-IN', mni_Beng: 'mni-IN', mar_Deva: 'mr-IN',
-  npi_Deva: 'ne-NP', ory_Orya: 'or-IN', pan_Guru: 'pa-IN', san_Deva: 'sa-IN',
-  sat_Olck: 'sat-IN', snd_Arab: 'sd-IN', snd_Deva: 'sd-IN', tam_Taml: 'ta-IN',
-  tel_Telu: 'te-IN', urd_Arab: 'ur-IN',
 };
 
 export const supportedLanguages = [
@@ -40,9 +40,15 @@ function useApi(path) {
     let active = true;
     fetch(API + path)
       .then((r) => r.json())
-      .then((res) => { if (active) setData(res); })
-      .catch(() => { if (active) setData({ error: true }); });
-    return () => { active = false; };
+      .then((res) => {
+        if (active) setData(res);
+      })
+      .catch(() => {
+        if (active) setData({ error: true });
+      });
+    return () => {
+      active = false;
+    };
   }, [path]);
   return data;
 }
@@ -59,11 +65,17 @@ function Header({ languages, language, setLanguage, dark, setDark }) {
         <span>{t('brandName')}</span>
       </Link>
       <nav className="main-nav">
-        <NavLink to="/explore" className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}>
+        <NavLink
+          to="/explore"
+          className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}
+        >
           <span className="nav-tab-icon">📖</span>
           <span>{t('Explore')}</span>
         </NavLink>
-        <NavLink to="/schedules" className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}>
+        <NavLink
+          to="/schedules"
+          className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}
+        >
           <span className="nav-tab-icon">📑</span>
           <span>{t('Schedules')}</span>
         </NavLink>
@@ -71,19 +83,31 @@ function Header({ languages, language, setLanguage, dark, setDark }) {
           <span className="nav-tab-icon">✨</span>
           <span>{t('Ask AI')}</span>
         </NavLink>
-        <NavLink to="/translate" className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}>
+        <NavLink
+          to="/translate"
+          className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}
+        >
           <span className="nav-tab-icon">🌐</span>
           <span>{t('Translate')}</span>
         </NavLink>
-        <NavLink to="/situations" className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}>
+        <NavLink
+          to="/situations"
+          className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}
+        >
           <span className="nav-tab-icon">🏛️</span>
           <span>{t('Situations')}</span>
         </NavLink>
-        <NavLink to="/learn" className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}>
+        <NavLink
+          to="/learn"
+          className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}
+        >
           <span className="nav-tab-icon">🎓</span>
           <span>{t('Learn')}</span>
         </NavLink>
-        <NavLink to="/about" className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}>
+        <NavLink
+          to="/about"
+          className={({ isActive }) => (isActive ? 'nav-tab active' : 'nav-tab')}
+        >
           <span className="nav-tab-icon">ℹ️</span>
           <span>{t('About')}</span>
         </NavLink>
@@ -188,9 +212,11 @@ function Explorer() {
   const filtered = useMemo(
     () =>
       data?.items?.filter((p) =>
-        (p.identifier + ' ' + p.title + ' ' + (p.text || '')).toLowerCase().includes(q.toLowerCase())
+        (p.identifier + ' ' + p.title + ' ' + (p.text || ''))
+          .toLowerCase()
+          .includes(q.toLowerCase()),
       ),
-    [data, q]
+    [data, q],
   );
 
   return (
@@ -199,7 +225,8 @@ function Explorer() {
       <p>{t('explorerSubtitle')}</p>
       {data?.stats && (
         <p className="chips-label">
-          {data.stats.articleRecords} {t('cardExploreTitle')} · {data.stats.chunks} {t('cardAskDesc')} · {data.stats.pdfPages} PDF pages
+          {data.stats.articleRecords} {t('cardExploreTitle')} · {data.stats.chunks}{' '}
+          {t('cardAskDesc')} · {data.stats.pdfPages} PDF pages
         </p>
       )}
       <input
@@ -214,11 +241,18 @@ function Explorer() {
         <div className="grid" style={{ marginTop: '20px' }}>
           {filtered?.slice(0, 36).map((p) => (
             <article className="card" key={p.id}>
-              <h3>{p.identifier}: {p.title}</h3>
+              <h3>
+                {p.identifier}: {p.title}
+              </h3>
               <p style={{ fontSize: '0.9rem' }}>
-                PDF pages {p.pdfPageStart}{p.pdfPageEnd && p.pdfPageEnd !== p.pdfPageStart ? `–${p.pdfPageEnd}` : ''}
+                PDF pages {p.pdfPageStart}
+                {p.pdfPageEnd && p.pdfPageEnd !== p.pdfPageStart ? `–${p.pdfPageEnd}` : ''}
               </p>
-              <Link className="button secondary" style={{ padding: '6px 14px', fontSize: '0.88rem' }} to={'/articles/' + p.id}>
+              <Link
+                className="button secondary"
+                style={{ padding: '6px 14px', fontSize: '0.88rem' }}
+                to={'/articles/' + p.id}
+              >
                 {t('openSourceView')}
               </Link>
             </article>
@@ -235,7 +269,12 @@ function Article() {
   const id = useLocation().pathname.split('/').pop();
   const p = useApi('/provisions/' + id);
 
-  if (!p) return <main><p>{t('loadingProvisions')}</p></main>;
+  if (!p)
+    return (
+      <main>
+        <p>{t('loadingProvisions')}</p>
+      </main>
+    );
   if (p.code || p.error) {
     return (
       <main>
@@ -251,23 +290,31 @@ function Article() {
       <Link to="/explore" style={{ display: 'inline-block', marginBottom: '14px' }}>
         {t('backToArticles')}
       </Link>
-      <span className="eyebrow">{p.contentStatus} · {p.source?.version}</span>
-      <h1>{p.identifier}: {p.title}</h1>
+      <span className="eyebrow">
+        {p.contentStatus} · {p.source?.version}
+      </span>
+      <h1>
+        {p.identifier}: {p.title}
+      </h1>
       <section className="card">
         <h2>{t('extractedSourceText')}</h2>
         <blockquote style={{ whiteSpace: 'pre-wrap', lineHeight: 1.7, fontSize: '1.05rem' }}>
           {p.text}
         </blockquote>
         <p style={{ marginTop: '16px' }}>
-          PDF pages {p.pdfPageStart}{p.pdfPageEnd && p.pdfPageEnd !== p.pdfPageStart ? `–${p.pdfPageEnd}` : ''}
+          PDF pages {p.pdfPageStart}
+          {p.pdfPageEnd && p.pdfPageEnd !== p.pdfPageStart ? `–${p.pdfPageEnd}` : ''}
         </p>
-        <a href={`${p.source.url}#page=${p.pdfPageStart}`} target="_blank" rel="noreferrer" className="button secondary">
+        <a
+          href={`${p.source.url}#page=${p.pdfPageStart}`}
+          target="_blank"
+          rel="noreferrer"
+          className="button secondary"
+        >
           📄 {t('officialSourcePdf')} {p.pdfPageStart}
         </a>
       </section>
-      <section className="notice">
-        {t('transparencyText')}
-      </section>
+      <section className="notice">{t('transparencyText')}</section>
     </main>
   );
 }
@@ -278,9 +325,14 @@ function Schedules() {
   const state = useApi('/schedules');
   const [q, setQ] = useState('');
 
-  if (!state) return <main><p>{t('loadingSchedules')}</p></main>;
+  if (!state)
+    return (
+      <main>
+        <p>{t('loadingSchedules')}</p>
+      </main>
+    );
   const items = state.items?.filter((item) =>
-    `${item.identifier} ${item.title}`.toLowerCase().includes(q.toLowerCase())
+    `${item.identifier} ${item.title}`.toLowerCase().includes(q.toLowerCase()),
   );
 
   return (
@@ -297,8 +349,14 @@ function Schedules() {
           <section className="card" key={item.id}>
             <h3>{item.identifier}</h3>
             <p>{item.title}</p>
-            <p style={{ fontSize: '0.88rem' }}>PDF pages {item.pdfPageStart}–{item.pdfPageEnd}</p>
-            <Link className="button secondary" style={{ padding: '6px 14px', fontSize: '0.88rem' }} to={`/schedules/${item.id}`}>
+            <p style={{ fontSize: '0.88rem' }}>
+              PDF pages {item.pdfPageStart}–{item.pdfPageEnd}
+            </p>
+            <Link
+              className="button secondary"
+              style={{ padding: '6px 14px', fontSize: '0.88rem' }}
+              to={`/schedules/${item.id}`}
+            >
               {t('openSourceView')}
             </Link>
           </section>
@@ -314,8 +372,18 @@ function Schedule() {
   const id = useLocation().pathname.split('/').filter(Boolean).at(-1);
   const state = useApi(`/schedules/${id}`);
 
-  if (!state) return <main><p>{t('loadingSchedules')}</p></main>;
-  if (state.error) return <main><section className="notice">This Schedule could not be found.</section></main>;
+  if (!state)
+    return (
+      <main>
+        <p>{t('loadingSchedules')}</p>
+      </main>
+    );
+  if (state.error)
+    return (
+      <main>
+        <section className="notice">This Schedule could not be found.</section>
+      </main>
+    );
 
   return (
     <main>
@@ -330,7 +398,12 @@ function Schedule() {
         <pre className="source-text" style={{ whiteSpace: 'pre-wrap', lineHeight: 1.7 }}>
           {state.text}
         </pre>
-        <a href={`${state.source.url}#page=${state.pdfPageStart}`} target="_blank" rel="noreferrer" className="button secondary">
+        <a
+          href={`${state.source.url}#page=${state.pdfPageStart}`}
+          target="_blank"
+          rel="noreferrer"
+          className="button secondary"
+        >
           📄 {t('officialSourcePdf')} {state.pdfPageStart}
         </a>
       </section>
@@ -345,13 +418,14 @@ function Result({ result, language }) {
   const [copied, setCopied] = useState(false);
 
   if (!result) return null;
+
+  const isEnglish = language === 'eng_Latn';
+
   if (result.status === 'insufficient_sources') {
     const rawMsg = result.message || t('noResultsNotice');
     const localizedMsg = isEnglish ? rawMsg : translateAnswerText(language, rawMsg);
     return <section className="notice">{localizedMsg}</section>;
   }
-
-  const isEnglish = language === 'eng_Latn';
 
   const renderText = (content) => {
     if (!content) return '';
@@ -380,7 +454,9 @@ function Result({ result, language }) {
       simple ? `\n\n${t('inSimpleWords')}:\n${simple}` : '',
       limits ? `\n\n${t('limitsAndContext')}:\n${limits}` : '',
       example ? `\n\n${t('everydayExample')}:\n${example}` : '',
-      result.citations?.length ? `\n\n${t('sourcesHeading')}:\n${result.citations.map((c) => c.identifier).join(', ')}` : ''
+      result.citations?.length
+        ? `\n\n${t('sourcesHeading')}:\n${result.citations.map((c) => c.identifier).join(', ')}`
+        : '',
     ].join('');
 
     navigator.clipboard?.writeText(fullText).then(() => {
@@ -411,9 +487,7 @@ function Result({ result, language }) {
         )}
       </div>
 
-      <div className="answer-lead">
-        {renderText(result.directAnswer)}
-      </div>
+      <div className="answer-lead">{renderText(result.directAnswer)}</div>
 
       {result.simpleExplanation && (
         <div className="answer-section">
@@ -504,7 +578,10 @@ function Ask({ language }) {
     if (language === 'guj_Gujr') {
       return [
         { label: '⚖️ કલમ 14: સમાનતા', q: 'કલમ 14 હેઠળ કાયદા સમક્ષ સમાનતાનો શું અર્થ છે?' },
-        { label: '🗣️ કલમ 19: વાણી સ્વતંત્રતા', q: 'કલમ 19 હેઠળ વાણી અને અભિવ્યક્તિની સ્વતંત્રતા અને તેની મર્યાદાઓ શું છે?' },
+        {
+          label: '🗣️ કલમ 19: વાણી સ્વતંત્રતા',
+          q: 'કલમ 19 હેઠળ વાણી અને અભિવ્યક્તિની સ્વતંત્રતા અને તેની મર્યાદાઓ શું છે?',
+        },
         { label: '🛡️ કલમ 21: જીવનનો અધિકાર', q: 'કલમ 21 હેઠળ જીવન અને વ્યક્તિગત સ્વતંત્રતાનું રક્ષણ શું છે?' },
         { label: '🎓 કલમ 21A: શિક્ષણનો અધિકાર', q: 'કલમ 21A હેઠળ શિક્ષણનો મૂળભૂત અધિકાર શું છે?' },
         { label: '📜 આમુખ (Preamble)', q: 'ભારતના બંધારણનું આમુખ શું જાહેર કરે છે?' },
@@ -515,22 +592,49 @@ function Ask({ language }) {
     if (language === 'hin_Deva') {
       return [
         { label: '⚖️ अनुच्छेद 14: समानता', q: 'अनुच्छेद 14 के तहत विधि के समक्ष समता का क्या अर्थ है?' },
-        { label: '🗣️ अनुच्छेद 19: वाक्-स्वतंत्रता', q: 'अनुच्छेद 19 के तहत वाक्-स्वतंत्रता के अधिकार और उनकी सीमाएं क्या हैं?' },
-        { label: '🛡️ अनुच्छेद 21: जीवन का अधिकार', q: 'अनुच्छेद 21 के तहत प्राण और दैहिक स्वतंत्रता का संरक्षण क्या है?' },
-        { label: '🎓 अनुच्छेद 21A: शिक्षा का अधिकार', q: 'अनुच्छेद 21A के तहत शिक्षा का मौलिक अधिकार क्या है?' },
+        {
+          label: '🗣️ अनुच्छेद 19: वाक्-स्वतंत्रता',
+          q: 'अनुच्छेद 19 के तहत वाक्-स्वतंत्रता के अधिकार और उनकी सीमाएं क्या हैं?',
+        },
+        {
+          label: '🛡️ अनुच्छेद 21: जीवन का अधिकार',
+          q: 'अनुच्छेद 21 के तहत प्राण और दैहिक स्वतंत्रता का संरक्षण क्या है?',
+        },
+        {
+          label: '🎓 अनुच्छेद 21A: शिक्षा का अधिकार',
+          q: 'अनुच्छेद 21A के तहत शिक्षा का मौलिक अधिकार क्या है?',
+        },
         { label: '📜 प्रस्तावना (Preamble)', q: 'भारत के संविधान की प्रस्तावना क्या घोषणा करती है?' },
-        { label: '🏛️ अनुच्छेद 32: संवैधानिक उपचार', q: 'अनुच्छेद 32 क्या है और सुप्रीम कोर्ट कौन सी रिट जारी कर सकता है?' },
-        { label: '🇮🇳 अनुच्छेद 51A: मौलिक कर्तव्य', q: 'अनुच्छेद 51A के तहत भारतीय नागरिकों के मौलिक कर्तव्य क्या हैं?' },
+        {
+          label: '🏛️ अनुच्छेद 32: संवैधानिक उपचार',
+          q: 'अनुच्छेद 32 क्या है और सुप्रीम कोर्ट कौन सी रिट जारी कर सकता है?',
+        },
+        {
+          label: '🇮🇳 अनुच्छेद 51A: मौलिक कर्तव्य',
+          q: 'अनुच्छेद 51A के तहत भारतीय नागरिकों के मौलिक कर्तव्य क्या हैं?',
+        },
       ];
     }
     return [
       { label: '⚖️ Equality (Art. 14)', q: 'What does equality before law mean under Article 14?' },
-      { label: '🗣️ Speech (Art. 19)', q: 'What are the freedom of speech rights and their limits under Article 19?' },
-      { label: '🛡️ Life & Liberty (Art. 21)', q: 'What is the protection of life and personal liberty under Article 21?' },
+      {
+        label: '🗣️ Speech (Art. 19)',
+        q: 'What are the freedom of speech rights and their limits under Article 19?',
+      },
+      {
+        label: '🛡️ Life & Liberty (Art. 21)',
+        q: 'What is the protection of life and personal liberty under Article 21?',
+      },
       { label: '🎓 Education (Art. 21A)', q: 'What is the Right to Education under Article 21A?' },
       { label: '📜 Preamble', q: 'What does the Preamble of the Constitution of India declare?' },
-      { label: '🏛️ Remedies (Art. 32)', q: 'What is Article 32 and what writs can the Supreme Court issue?' },
-      { label: '🇮🇳 Duties (Art. 51A)', q: 'What are the Fundamental Duties of Indian citizens under Article 51A?' },
+      {
+        label: '🏛️ Remedies (Art. 32)',
+        q: 'What is Article 32 and what writs can the Supreme Court issue?',
+      },
+      {
+        label: '🇮🇳 Duties (Art. 51A)',
+        q: 'What are the Fundamental Duties of Indian citizens under Article 51A?',
+      },
     ];
   }, [language]);
 
@@ -673,11 +777,26 @@ function Translation({ languages }) {
   const [copied, setCopied] = useState(false);
 
   const samples = [
-    { label: t('samplePreamble'), text: 'We, the people of India, having solemnly resolved to constitute India into a Sovereign Socialist Secular Democratic Republic and to secure to all its citizens Justice, Liberty, Equality and Fraternity.' },
-    { label: t('sampleArt14'), text: 'The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.' },
-    { label: t('sampleArt19'), text: 'All citizens shall have the right to freedom of speech and expression and to assemble peaceably and without arms.' },
-    { label: t('sampleArt21'), text: 'No person shall be deprived of his life or personal liberty except according to procedure established by law.' },
-    { label: t('sampleArt51A'), text: 'It shall be the duty of every citizen of India to abide by the Constitution and respect its ideals and institutions, the National Flag and the National Anthem.' },
+    {
+      label: t('samplePreamble'),
+      text: 'We, the people of India, having solemnly resolved to constitute India into a Sovereign Socialist Secular Democratic Republic and to secure to all its citizens Justice, Liberty, Equality and Fraternity.',
+    },
+    {
+      label: t('sampleArt14'),
+      text: 'The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.',
+    },
+    {
+      label: t('sampleArt19'),
+      text: 'All citizens shall have the right to freedom of speech and expression and to assemble peaceably and without arms.',
+    },
+    {
+      label: t('sampleArt21'),
+      text: 'No person shall be deprived of his life or personal liberty except according to procedure established by law.',
+    },
+    {
+      label: t('sampleArt51A'),
+      text: 'It shall be the duty of every citizen of India to abide by the Constitution and respect its ideals and institutions, the National Flag and the National Anthem.',
+    },
   ];
 
   const handleSwap = () => {
@@ -704,7 +823,12 @@ function Translation({ languages }) {
         body: JSON.stringify({ text, sourceLanguage, targetLanguage }),
       });
       const body = await response.json();
-      if (!response.ok || !body.translatedText || body.translatedText.startsWith('ભારતનું બંધારણ:') || body.translatedText.startsWith('अनुवाद:')) {
+      if (
+        !response.ok ||
+        !body.translatedText ||
+        body.translatedText.startsWith('ભારતનું બંધારણ:') ||
+        body.translatedText.startsWith('अनुवाद:')
+      ) {
         throw new Error(body?.message || 'Fallback needed');
       }
       setTranslated(body.translatedText);
@@ -759,10 +883,7 @@ function Translation({ languages }) {
           <div className="translate-card">
             <div className="translate-card-header">
               <label>{t('translateFrom')}</label>
-              <select
-                value={sourceLanguage}
-                onChange={(e) => setSourceLanguage(e.target.value)}
-              >
+              <select value={sourceLanguage} onChange={(e) => setSourceLanguage(e.target.value)}>
                 {supportedLanguages.map((l) => (
                   <option key={l.code} value={l.code}>
                     {l.nativeName}
@@ -782,11 +903,7 @@ function Translation({ languages }) {
                 {text.length} / 4000
               </span>
               {text && (
-                <button
-                  type="button"
-                  className="quiet"
-                  onClick={() => setText('')}
-                >
+                <button type="button" className="quiet" onClick={() => setText('')}>
                   {t('clearText')}
                 </button>
               )}
@@ -808,10 +925,7 @@ function Translation({ languages }) {
           <div className="translate-card">
             <div className="translate-card-header">
               <label>{t('translateTo')}</label>
-              <select
-                value={targetLanguage}
-                onChange={(e) => setTargetLanguage(e.target.value)}
-              >
+              <select value={targetLanguage} onChange={(e) => setTargetLanguage(e.target.value)}>
                 {supportedLanguages.map((l) => (
                   <option key={l.code} value={l.code}>
                     {l.nativeName}
@@ -819,10 +933,8 @@ function Translation({ languages }) {
                 ))}
               </select>
             </div>
-            <div
-              className={`translate-output-box ${!translated ? 'placeholder' : ''}`}
-            >
-              {busy ? t('translating') : (translated || t('textToTranslatePlaceholder'))}
+            <div className={`translate-output-box ${!translated ? 'placeholder' : ''}`}>
+              {busy ? t('translating') : translated || t('textToTranslatePlaceholder')}
             </div>
 
             {translated && (
@@ -897,8 +1009,17 @@ function Situations({ language }) {
           <Result result={result} language={language} />
           {result.why && (
             <div className="answer-section">
-              <h3>⚖️ {language === 'guj_Gujr' ? 'બંધારણીય સંદર્ભ' : language === 'hin_Deva' ? 'संवैधानिक संदर्भ' : 'Constitutional Context'}</h3>
-              <p>{language === 'eng_Latn' ? result.why : translateAnswerText(language, result.why)}</p>
+              <h3>
+                ⚖️{' '}
+                {language === 'guj_Gujr'
+                  ? 'બંધારણીય સંદર્ભ'
+                  : language === 'hin_Deva'
+                    ? 'संवैधानिक संदर्भ'
+                    : 'Constitutional Context'}
+              </h3>
+              <p>
+                {language === 'eng_Latn' ? result.why : translateAnswerText(language, result.why)}
+              </p>
             </div>
           )}
           {result.missingFacts?.length > 0 && (
@@ -913,8 +1034,19 @@ function Situations({ language }) {
           )}
           {result.nextStep && (
             <div className="answer-section">
-              <h3>🏛️ {language === 'guj_Gujr' ? 'વાસ્તવિક પગલાં અને કાનૂની માર્ગદર્શન' : language === 'hin_Deva' ? 'वास्तविक कदम और विधिक मार्गदर्शन' : 'Next Steps & Guidance'}</h3>
-              <p>{language === 'eng_Latn' ? result.nextStep : translateAnswerText(language, result.nextStep)}</p>
+              <h3>
+                🏛️{' '}
+                {language === 'guj_Gujr'
+                  ? 'વાસ્તવિક પગલાં અને કાનૂની માર્ગદર્શન'
+                  : language === 'hin_Deva'
+                    ? 'वास्तविक कदम और विधिक मार्गदर्शन'
+                    : 'Next Steps & Guidance'}
+              </h3>
+              <p>
+                {language === 'eng_Latn'
+                  ? result.nextStep
+                  : translateAnswerText(language, result.nextStep)}
+              </p>
             </div>
           )}
         </section>
@@ -931,7 +1063,7 @@ function Learning({ language: propLanguage }) {
   const data = useApi('/learning/paths?lang=' + language);
   const quizzes = useApi('/quizzes?lang=' + language);
   const [completed, setCompleted] = useState(() =>
-    JSON.parse(localStorage.getItem('samvidhan-completed') || '[]')
+    JSON.parse(localStorage.getItem('samvidhan-completed') || '[]'),
   );
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
@@ -940,7 +1072,12 @@ function Learning({ language: propLanguage }) {
     localStorage.setItem('samvidhan-completed', JSON.stringify(completed));
   }, [completed]);
 
-  if (!data || !quizzes) return <main><p>{t('loadingLearning')}</p></main>;
+  if (!data || !quizzes)
+    return (
+      <main>
+        <p>{t('loadingLearning')}</p>
+      </main>
+    );
 
   const toggle = (id) =>
     setCompleted(completed.includes(id) ? completed.filter((x) => x !== id) : [...completed, id]);
@@ -969,7 +1106,10 @@ function Learning({ language: propLanguage }) {
       {data.items?.map((path) => (
         <section className="card" key={path.id} style={{ marginBottom: '20px' }}>
           <h2>{translateAnswerText(language, path.title)}</h2>
-          <p>{translateAnswerText(language, path.description)} · {path.durationMinutes} {durationLabel}</p>
+          <p>
+            {translateAnswerText(language, path.description)} · {path.durationMinutes}{' '}
+            {durationLabel}
+          </p>
           {path.lessons.map((lesson) => (
             <article className="source-item" key={lesson.id}>
               <h3>
@@ -990,10 +1130,23 @@ function Learning({ language: propLanguage }) {
           <h2>{translateAnswerText(language, quiz.title)}</h2>
           <form onSubmit={submit}>
             {quiz.questions.map((question) => (
-              <fieldset key={question.id} style={{ border: '1px solid var(--border)', borderRadius: '12px', padding: '16px', margin: '14px 0' }}>
-                <legend style={{ fontWeight: 600 }}>{translateAnswerText(language, question.prompt)}</legend>
+              <fieldset
+                key={question.id}
+                style={{
+                  border: '1px solid var(--border)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  margin: '14px 0',
+                }}
+              >
+                <legend style={{ fontWeight: 600 }}>
+                  {translateAnswerText(language, question.prompt)}
+                </legend>
                 {question.options.map((option, index) => (
-                  <label key={option} style={{ display: 'block', margin: '8px 0', cursor: 'pointer' }}>
+                  <label
+                    key={option}
+                    style={{ display: 'block', margin: '8px 0', cursor: 'pointer' }}
+                  >
                     <input
                       type="radio"
                       required
@@ -1011,7 +1164,9 @@ function Learning({ language: propLanguage }) {
           {result && (
             <section className="notice" style={{ marginTop: '16px' }}>
               <strong>
-                {result.score !== undefined ? `${t('score')}: ${result.score}/${result.total}` : translateAnswerText(language, result.message)}
+                {result.score !== undefined
+                  ? `${t('score')}: ${result.score}/${result.total}`
+                  : translateAnswerText(language, result.message)}
               </strong>
             </section>
           )}
@@ -1027,7 +1182,12 @@ function Myths({ language: propLanguage }) {
   const contextLanguage = useLanguage();
   const language = propLanguage || contextLanguage || 'eng_Latn';
   const state = useApi('/myths?lang=' + language);
-  if (!state) return <main><p>{t('loadingMyths')}</p></main>;
+  if (!state)
+    return (
+      <main>
+        <p>{t('loadingMyths')}</p>
+      </main>
+    );
 
   return (
     <main>
@@ -1035,9 +1195,15 @@ function Myths({ language: propLanguage }) {
       <div className="grid">
         {state.items?.map((item) => (
           <section className="card" key={item.id}>
-            <span className="eyebrow" style={{ color: '#dc2626' }}>❌ {t('myth')}</span>
-            <p style={{ fontWeight: 600, fontSize: '1.05rem' }}>{translateAnswerText(language, item.myth)}</p>
-            <span className="eyebrow" style={{ color: '#16a34a', marginTop: '12px' }}>✓ {t('fact')}</span>
+            <span className="eyebrow" style={{ color: '#dc2626' }}>
+              ❌ {t('myth')}
+            </span>
+            <p style={{ fontWeight: 600, fontSize: '1.05rem' }}>
+              {translateAnswerText(language, item.myth)}
+            </p>
+            <span className="eyebrow" style={{ color: '#16a34a', marginTop: '12px' }}>
+              ✓ {t('fact')}
+            </span>
             <p>{translateAnswerText(language, item.fact)}</p>
           </section>
         ))}
@@ -1052,7 +1218,12 @@ function Amendments({ language: propLanguage }) {
   const contextLanguage = useLanguage();
   const language = propLanguage || contextLanguage || 'eng_Latn';
   const state = useApi('/amendments?lang=' + language);
-  if (!state) return <main><p>{t('loadingAmendments')}</p></main>;
+  if (!state)
+    return (
+      <main>
+        <p>{t('loadingAmendments')}</p>
+      </main>
+    );
 
   return (
     <main>
@@ -1061,9 +1232,13 @@ function Amendments({ language: propLanguage }) {
       <div className="grid">
         {state.items?.map((item) => (
           <section className="card" key={item.id}>
-            <h3>{translateAnswerText(language, item.number)} ({item.year})</h3>
+            <h3>
+              {translateAnswerText(language, item.number)} ({item.year})
+            </h3>
             <p>{translateAnswerText(language, item.summary)}</p>
-            <p style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>{translateAnswerText(language, item.sourceNote)}</p>
+            <p style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>
+              {translateAnswerText(language, item.sourceNote)}
+            </p>
           </section>
         ))}
       </div>
@@ -1086,7 +1261,7 @@ function Static({ title, children }) {
 // Main App Container
 function App() {
   const languageState = useApi('/languages');
-  const languages = languageState?.languages || defaultLanguages;
+  const languages = defaultLanguages;
 
   // Persistent Language State
   const [language, setLanguage] = useState(() => localStorage.language || 'eng_Latn');
@@ -1096,7 +1271,11 @@ function App() {
     if (typeof localStorage !== 'undefined' && localStorage.theme) {
       return localStorage.theme === 'dark';
     }
-    return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return (
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    );
   });
 
   // Apply Theme to Document Element
@@ -1108,7 +1287,7 @@ function App() {
   // Apply Language and Direction (LTR/RTL) to Document Element
   const activeLanguage = useMemo(
     () => languages.find((item) => item.code === language || item.alternateCode === language),
-    [languages, language]
+    [languages, language],
   );
 
   useEffect(() => {
@@ -1140,15 +1319,23 @@ function App() {
       </Static>
     );
   } else if (['/privacy', '/terms', '/disclaimer'].includes(route)) {
+    const pageContent = {
+      '/privacy': 'privacyText',
+      '/terms': 'termsText',
+      '/disclaimer': 'disclaimerText',
+    };
+
     body = (
       <Static title={t(route.slice(1).charAt(0).toUpperCase() + route.slice(2))}>
-        <p>{t('disclaimerText')}</p>
+        <p>{t(pageContent[route])}</p>
       </Static>
     );
   } else {
     body = (
       <Static title="Page Not Found">
-        <p>This page does not exist. <Link to="/">Return home →</Link></p>
+        <p>
+          This page does not exist. <Link to="/">Return home →</Link>
+        </p>
       </Static>
     );
   }
@@ -1182,5 +1369,5 @@ function App() {
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>
+  </BrowserRouter>,
 );

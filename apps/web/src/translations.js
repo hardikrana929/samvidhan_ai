@@ -403,8 +403,6 @@ export const UI_TRANSLATIONS = {
     termsText: 'संविधान AI का उपयोग करके, आप सहमत होते हैं कि यह मंच केवल शैक्षिक और नागरिक जागरूकता के उद्देश्य से प्रदान किया गया है। सामग्री आधिकारिक संवैधानिक मूल पाठ पर आधारित है और यह किसी कानूनी अधिवक्ता या आधिकारिक विधिक सलाह का विकल्प नहीं है।',
     Disclaimer: 'अस्वीकरण'
   },
-
-
 };
 
 // Comprehensive Constitutional Knowledge Dictionary for Real-time Answer Translation
